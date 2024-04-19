@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCB6yKAuMtNGAbPGXj-BcaUW1MQfrVvKAE',
-    appId: '1:244758209328:web:310dbd37c0303fe3329ef5',
-    messagingSenderId: '244758209328',
-    projectId: 'notes-d6089',
-    authDomain: 'notes-d6089.firebaseapp.com',
-    storageBucket: 'notes-d6089.appspot.com',
-    measurementId: 'G-Y7GTS6WKZM',
+    apiKey: 'AIzaSyALn-2tfFtP_THIIDInlgr2XNOm0jwjkbg',
+    appId: '1:228568473510:web:e749b3308ba691b47df967',
+    messagingSenderId: '228568473510',
+    projectId: 'notes-26d8d',
+    authDomain: 'notes-26d8d.firebaseapp.com',
+    storageBucket: 'notes-26d8d.appspot.com',
+    measurementId: 'G-1RNBEHDGEC',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCa8Umg4KO6dvLN_E4FFzAjtSuSMEyyUSQ',
-    appId: '1:244758209328:android:241fd840f192c4d7329ef5',
-    messagingSenderId: '244758209328',
-    projectId: 'notes-d6089',
-    storageBucket: 'notes-d6089.appspot.com',
+    apiKey: 'AIzaSyBkQIci8RQT1FmthQ2WZ2UwJykInCQSjos',
+    appId: '1:228568473510:android:260d71f9b5e55f4a7df967',
+    messagingSenderId: '228568473510',
+    projectId: 'notes-26d8d',
+    storageBucket: 'notes-26d8d.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBwDvlkdzjb8bFMGDhIz1aNUafQlAey74g',
-    appId: '1:244758209328:ios:ff4a7ad38123f529329ef5',
-    messagingSenderId: '244758209328',
-    projectId: 'notes-d6089',
-    storageBucket: 'notes-d6089.appspot.com',
+    apiKey: 'AIzaSyC6WHJL4X_mxna0uGNJtvl5sS7QyZT-nbs',
+    appId: '1:228568473510:ios:4a2aea6a5bd4f14d7df967',
+    messagingSenderId: '228568473510',
+    projectId: 'notes-26d8d',
+    storageBucket: 'notes-26d8d.appspot.com',
     iosBundleId: 'com.example.notes',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBwDvlkdzjb8bFMGDhIz1aNUafQlAey74g',
-    appId: '1:244758209328:ios:001c5a50182d12dd329ef5',
-    messagingSenderId: '244758209328',
-    projectId: 'notes-d6089',
-    storageBucket: 'notes-d6089.appspot.com',
+    apiKey: 'AIzaSyC6WHJL4X_mxna0uGNJtvl5sS7QyZT-nbs',
+    appId: '1:228568473510:ios:35e1f9ef2557d7307df967',
+    messagingSenderId: '228568473510',
+    projectId: 'notes-26d8d',
+    storageBucket: 'notes-26d8d.appspot.com',
     iosBundleId: 'com.example.notes.RunnerTests',
   );
 }

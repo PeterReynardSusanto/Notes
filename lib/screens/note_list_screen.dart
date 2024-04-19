@@ -1,7 +1,4 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -13,8 +10,8 @@ class NoteListScreen extends StatefulWidget {
 }
 
 class _NoteListScreenState extends State<NoteListScreen> {
-  final TextEditingController _titlecontroller = TextEditingController();
-  final TextEditingController _descriptioncontroller = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +38,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                       ),
                     ),
                     TextField(
-                      controller: _titlecontroller,
+                      controller: _titleController,
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 10.0),
@@ -51,7 +48,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                       ),
                     ),
                     TextField(
-                      controller: _descriptioncontroller,
+                      controller: _descriptionController,
                     ),
                   ],
                 ),
@@ -71,8 +68,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
                         // ini adalah alternatif dari yang di atas
                         // Map<String, dynamic> newNote =
                         //     new Map<String, dynamic>();
-                        newNote['title'] = _titlecontroller.text;
-                        newNote['description'] = _descriptioncontroller.text;
+                        newNote['title'] = _titleController.text;
+                        newNote['description'] = _descriptionController.text;
 
                         FirebaseFirestore.instance
                             .collection('notes')
@@ -99,41 +96,117 @@ class NoteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController titleController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
+
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('note').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text('Errorr : ${snapshot.error}');
         }
-        return ListView(
-          padding: const EdgeInsets.only(bottom: 80),
-          children: snapshot.data.docs.map((document) {
-            return Card(
-              child: ListTile(
-                title: Text(document['title']),
-                subtitle: Text(document['description']),
-                trailing: InkWell(
-                  onTap: () {
-                    FirebaseFirestore.instance
-                        .collection('notes')
-                        .doc(document.id)
-                        .delete()
-                        .catchError((e) {
-                      print(e);
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: const Icon(Icons.delete),
-                  ),
-                ),
-              ),
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }),
-        );
+          default:
+            return ListView(
+              padding: const EdgeInsets.only(bottom: 80),
+              children: snapshot.data!.docs.map((document) {
+                return Card(
+                  child: ListTile(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          TextEditingController titleController =
+                              TextEditingController(text: document['title']);
+                          TextEditingController descriptionController =
+                              TextEditingController(
+                                  text: document['description']);
+                          return AlertDialog(
+                            // Content merupakan isi utama dari dialog
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Title:',
+                                  textAlign: TextAlign.start,
+                                ),
+                                TextField(
+                                  controller: titleController,
+                                  decoration: InputDecoration(
+                                    hintText: document['title'],
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 20),
+                                  child: Text(
+                                    'Description:',
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                                TextField(
+                                  controller: descriptionController,
+                                ),
+                              ],
+                            ),
+                            // Action berisi kumpulan button
+                            actions: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Cancel')),
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Map<String, dynamic> updateNote = {};
+                                    // ini adalah alternatif dari yang di atas
+                                    // Map<String, dynamic> newNote =
+                                    //     new Map<String, dynamic>();
+                                    updateNote['title'] = titleController.text;
+                                    updateNote['description'] =
+                                        descriptionController.text;
+
+                                    FirebaseFirestore.instance
+                                        .collection('notes')
+                                        .doc(document.id)
+                                        .update(updateNote)
+                                        .whenComplete(() {
+                                      Navigator.of(context).pop();
+                                    });
+                                  },
+                                  child: const Text('Update')),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    title: Text(document['title']),
+                    subtitle: Text(document['description']),
+                    trailing: InkWell(
+                      onTap: () {
+                        FirebaseFirestore.instance
+                            .collection('notes')
+                            .doc(document.id)
+                            .delete();
+                      },
+                      child: const Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Icon(Icons.delete),
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+        }
       },
     );
   }
 }
-//
