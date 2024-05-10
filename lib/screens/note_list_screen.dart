@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:notes/services/note_service.dart';
 import 'package:notes/widgets/note_dialog.dart';
-
+import 'package:path/path.dart';
 
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({super.key});
 
-
   @override
   State<NoteListScreen> createState() => _NoteListScreenState();
 }
-
 
 class _NoteListScreenState extends State<NoteListScreen> {
   @override
@@ -36,10 +34,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
   }
 }
 
-
 class NoteList extends StatelessWidget {
   const NoteList({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +64,14 @@ class NoteList extends StatelessWidget {
                         },
                       );
                     },
+                    leading: document.imageUrl != null
+                        ? CircleAvatar(
+                            backgroundImage: NetworkImage(document.imageUrl!),
+                          )
+                        : const CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            child: Icon(Icons.image),
+                          ),
                     title: Text(document.title),
                     subtitle: Text(document.description),
                     trailing: InkWell(
