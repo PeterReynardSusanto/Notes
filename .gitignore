@@ -44,3 +44,6 @@ app.*.map.json
 
 # .env file
 *.env
+
+# .index html
+*.index.html
