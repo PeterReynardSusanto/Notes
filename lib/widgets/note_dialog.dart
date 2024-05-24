@@ -6,18 +6,14 @@ import 'package:notes/models/note.dart';
 import 'package:notes/services/location_service.dart';
 import 'package:notes/services/note_service.dart';
 
-
 class NoteDialog extends StatefulWidget {
   final Note? note;
 
-
   const NoteDialog({super.key, this.note});
-
 
   @override
   State<NoteDialog> createState() => _NoteDialogState();
 }
-
 
 class _NoteDialogState extends State<NoteDialog> {
   final TextEditingController _titleController = TextEditingController();
@@ -25,7 +21,6 @@ class _NoteDialogState extends State<NoteDialog> {
   File? _imageFile;
   Position? _currentPosition;
   // String? _currentAddress;
-
 
   @override
   void initState() {
@@ -35,7 +30,6 @@ class _NoteDialogState extends State<NoteDialog> {
       _descriptionController.text = widget.note!.description;
     }
   }
-
 
   Future<void> _pickImage() async {
     final pickedFile =
@@ -47,7 +41,6 @@ class _NoteDialogState extends State<NoteDialog> {
     }
   }
 
-
   Future<void> _pickLocation() async {
     final currentPosition = await LocationService.getCurrentPosition();
     // final currentAddress = await LocationService.getAddressFromLatLng(_currentPosition!);
@@ -56,7 +49,6 @@ class _NoteDialogState extends State<NoteDialog> {
       // _currentAddress = currentAddress;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +111,7 @@ class _NoteDialogState extends State<NoteDialog> {
           onPressed: () async {
             String? imageUrl;
             if (_imageFile != null) {
-              imageUrl = await NoteService.uploadImage(_imageFile!);
+              imageUrl = await NoteService.uploadImage(_imageFile! as XFile);
             } else {
               imageUrl = widget.note?.imageUrl;
             }
@@ -132,7 +124,6 @@ class _NoteDialogState extends State<NoteDialog> {
               longitude: _currentPosition?.longitude,
               createdAt: widget.note?.createdAt,
             );
-
 
             if (widget.note == null) {
               NoteService.addNote(note)
